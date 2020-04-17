@@ -1,11 +1,10 @@
-import express from 'express';
+import app from '@app/app';
 
-const app = express();
+import './config/db';
 
-app.get('/', (req, res) => {
-  res.send('truckz!');
-});
+import { port } from './config';
 
-app.listen(8000, () => {
-  console.log('listening');
-});
+app.listen(
+  port, 
+  () => console.log(`...Listening on PORT: ${ port }`)
+);
