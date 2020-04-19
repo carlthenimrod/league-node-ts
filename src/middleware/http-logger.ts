@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 
-import logger from '../utils/logger';
+import logger from '../util/logger';
 
 const httpLogger: RequestHandler = (req, res, next) => {
   logger.http('...Logging', { 

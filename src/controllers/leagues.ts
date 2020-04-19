@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { ObjectID } from 'mongodb';
 
-import League from '@models/league';
+import League, { LeagueDocument, LeagueInput } from '@models/league';
 
 const router = Router();
 
-router.get('/', async (_req, res, next) => {
+router.get<{}, LeagueDocument[]>
+('/', async (_req, res, next) => {
   try {
     const leagues = await League.find();
     res.send(leagues);
@@ -14,8 +15,9 @@ router.get('/', async (_req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
-  const id: string = req.params.id;
+router.get<{ id: string }, LeagueDocument>
+('/:id', async (req, res, next) => {
+  const id = req.params.id;
 
   try {
     if(!ObjectID.isValid(id)) {
@@ -35,7 +37,8 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post<{}, LeagueDocument, LeagueInput>
+('/', async (req, res, next) => {
   const { name } = req.body;
 
   try {
@@ -47,8 +50,9 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
-  const id: string = req.params.id;
+router.put<{ id: string }, LeagueDocument, LeagueInput>
+('/:id', async (req, res, next) => {
+  const id = req.params.id;
   const { name } = req.body;
 
   try {
@@ -71,8 +75,9 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
-  const id: string = req.params.id;
+router.delete<{ id: string }, void>
+('/:id', async (req, res, next) => {
+  const id = req.params.id;
 
   try {
     if (!ObjectID.isValid(id)) {

@@ -1,4 +1,4 @@
-import logger from '../utils/logger';
+import logger from '../util/logger';
 
 import { ErrorRequestHandler } from 'express';
 import { Error } from 'mongoose';

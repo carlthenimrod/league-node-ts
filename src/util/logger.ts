@@ -3,6 +3,8 @@ import path from 'path';
 import { createLogger, transports, format } from 'winston';
 import 'winston-daily-rotate-file';
 
+import { environment } from '../config';
+
 const { combine, timestamp, printf } = format;
 
 const baseDir = 'log/';
@@ -27,6 +29,12 @@ const messageFormat = printf(info => {
 
 const dirname = path.join(baseDir, '%DATE%/');
 
+const notTesting = format(() => 
+  environment !== 'test' 
+    ? true
+    : false
+)
+
 const httpOnly = format(info => 
   info.level === 'http'
     ? info
@@ -35,6 +43,7 @@ const httpOnly = format(info =>
 
 const logger = createLogger({
   format: combine(
+    notTesting(),
     timestamp(),
     messageFormat
   ),
