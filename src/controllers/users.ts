@@ -4,10 +4,10 @@ import { ObjectID } from 'mongodb';
 import User, { UserDocument, UserInput } from '@models/user';
 
 /**
- * UserController Namespace
- * @namespace UserController
+ * UsersController Namespace
+ * @namespace UsersController
  */
-namespace UserController {
+namespace UsersController {
   /**
    * Retrieves all users
    */
@@ -52,7 +52,7 @@ namespace UserController {
   };
 
   /**
-   * Saves user to DB
+   * Creates/saves user to DB
    */
   export const postUser = async (
     req: Request & { body: UserInput },
@@ -183,4 +183,4 @@ namespace UserController {
   };
 }
 
-export default UserController;
+export default UsersController;

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import leagueController from '@controllers/leagues';
-import UserController from '@controllers/users';
+import LeaguesController from '@controllers/leagues';
+import UsersController from '@controllers/users';
 import httpLogger from '@middleware/http-logger';
 import errorHandler from '@middleware/error-handler';
 
@@ -11,20 +11,27 @@ const router = Router();
 router.use(httpLogger);
 
 // controllers
-router.use('/leagues', leagueController)
+const leaguesRouter = Router();
+router.use('/leagues', leaguesRouter);
 
+//leagues router
+leaguesRouter.get('/', LeaguesController.getLeagues);
+leaguesRouter.get('/:id', LeaguesController.getLeague);
+leaguesRouter.post('/', LeaguesController.postLeague);
+leaguesRouter.put('/:id', LeaguesController.putLeague);
+leaguesRouter.delete('/:id', LeaguesController.deleteLeague);
 
-// user router
-const userRouter = Router();
-router.use('/users', userRouter);
+// users router
+const usersRouter = Router();
+router.use('/users', usersRouter);
 
-// user routes
-userRouter.get('/', UserController.getUsers);
-userRouter.get('/:id', UserController.getUser);
-userRouter.post('/', UserController.postUser);
-userRouter.put('/:id', UserController.putUser);
-userRouter.delete('/:id', UserController.deleteUser);
-userRouter.post('/email', UserController.checkEmail);
+// users routes
+usersRouter.get('/', UsersController.getUsers);
+usersRouter.get('/:id', UsersController.getUser);
+usersRouter.post('/', UsersController.postUser);
+usersRouter.put('/:id', UsersController.putUser);
+usersRouter.delete('/:id', UsersController.deleteUser);
+usersRouter.post('/email', UsersController.checkEmail);
 
 
 // 404
