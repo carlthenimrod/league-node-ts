@@ -6,7 +6,6 @@ import User, { UserResponse } from '@app/models/user';
 import UserFactory from '@util/factory/user.factory';
 import { ErrorResponse } from '@app/middleware/error-handler';
 import { ObjectID } from 'mongodb';
-import { userFactory } from '@app/util/factory';
 
 beforeAll(async () => await dbConnect('test-users-controller'));
 
@@ -102,19 +101,87 @@ describe('POST users/', () => {
 });
 
 describe('PUT users/', () => {
-  it.todo('should update/return a user');
+  it('should update/return user', async () => {
+    const testUser = await UserFactory.save();
+    const result = await request(app)
+      .put(`/users/${ testUser._id }`)
+      .send(testUser);
 
-  it.todo('should return error 400 (Invalid ID)');
+    const { body: responseUser, status }
+    : { body: UserResponse, status: number }
+    = result;
 
-  it.todo('should return error 404 (User not found)');
+    expect(status).toEqual(200);
+    expect(testUser.fullName).toEqual(responseUser.fullName);
+  });
+
+  it('should return error 400 (Invalid ID)', async () => {
+    const result = await request(app)
+      .put('/users/truck')
+      .send();
+
+      const { body: error, status }
+      : { body: ErrorResponse, status: number }
+      = result;
+
+      expect(status).toEqual(400);
+      expect(error).toHaveProperty('message');
+  });
+
+  it('should return error 404 (User not found)', async () => {
+    const id = new ObjectID();
+
+    const result = await request(app)
+      .put(`/users/${ id }`)
+      .send();
+
+      const { body: error, status }
+      : { body: ErrorResponse, status: number }
+      = result;
+
+      expect(status).toEqual(404);
+      expect(error).toHaveProperty('message');
+  });
 });
 
 describe('DELETE users/', () => {
-  it.todo('should remove user');
+  it('should remove user', async () => {
+    const testUser = await UserFactory.save();
+    const result = await request(app)
+      .delete(`/users/${ testUser._id }`);
 
-  it.todo('should return error 400 (Invalid ID)');
+    const { body, status }
+    : { body: {}, status: number }
+    = result;
 
-  it.todo('should return error 404 (User not found)');
+    expect(status).toEqual(200);
+    expect(body).toEqual({});
+  });
+
+  it('should return error 400 (Invalid ID)', async () => {
+    const result = await request(app)
+      .delete('/users/truck');
+
+    const { body: error, status }
+    : { body: ErrorResponse, status: number }
+    = result;
+
+    expect(status).toEqual(400);
+    expect(error).toHaveProperty('message');
+  });
+
+  it('should return error 404 (User not found)', async () => {
+    const id = new ObjectID();
+    const result = await request(app)
+      .delete(`/users/${ id }`);
+
+    const { body: error, status }
+    : { body: ErrorResponse, status: number }
+    = result;
+
+    expect(status).toEqual(404);
+    expect(error).toHaveProperty('message');
+  });
 });
 
 describe('POST users/email', () => {
@@ -130,7 +197,7 @@ describe('POST users/email', () => {
   });
 
   it('should return 409 (email exists)', async () => {
-    const testUser = await userFactory.save();
+    const testUser = await UserFactory.save();
 
     const result = await request(app)
       .post('/users/email')
