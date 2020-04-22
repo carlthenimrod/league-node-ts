@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import leagueController from '@controllers/leagues';
+import userController from '@controllers/users';
 import httpLogger from '@middleware/http-logger';
 import errorHandler from '@middleware/error-handler';
 
@@ -11,6 +12,7 @@ router.use(httpLogger);
 
 // controllers
 router.use('/leagues', leagueController);
+router.use('/users', userController)
 
 // 404
 router.use((_req, res, next) => {

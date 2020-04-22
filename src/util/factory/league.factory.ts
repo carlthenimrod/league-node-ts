@@ -2,7 +2,6 @@ import League, { LeagueDocument } from '@models/league';
 
 /**
  * Creates a new league document and saves to database
- * 
  * @param total number of leagues to create
  */
 async function createLeague(): Promise<LeagueDocument>;

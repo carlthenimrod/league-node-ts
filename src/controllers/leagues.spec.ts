@@ -1,21 +1,15 @@
 import request from 'supertest';
 import { ObjectID } from 'mongodb';
 
-import { dbConnect, dbClose, dbClear } from '@test/setup';
+import { dbConnect, dbClose } from '@test/setup';
 import app from '@app/app';
 import League, { LeagueResponse } from '@app/models/league';
 import { leagueFactory } from '@util/factory';
 import { ErrorResponse } from '@app/middleware/error-handler';
 
-beforeAll(async () => {
-  await dbConnect();
-  await dbClear();
-});
+beforeAll(async () => await dbConnect('test-leagues-controller'));
 
-afterAll(async () => {
-  await dbClear();
-  await dbClose();
-});
+afterAll(async () => await dbClose());
 
 afterEach(async () => await League.deleteMany({}) );
 

@@ -1,20 +1,14 @@
-import { dbConnect, dbClose, dbClear } from '@test/setup';
+import { dbConnect, dbClose } from '@test/setup';
 import League from '@app/models/league';
 import leagueFactory from './league.factory';
 
-beforeAll(async () => {
-  await dbConnect();
-  await dbClear();
-});
+beforeAll(async () => await dbConnect('test-league-factory'));
 
-afterAll(async () => {
-  await dbClear();
-  await dbClose();
-});
+afterAll(async () => await dbClose());
+
+afterEach(async () => League.deleteMany({}));
 
 describe('League Factory', () => {
-  afterEach(async () => League.deleteMany({}));
-
   it('should save/return single league', async () => {
     const league = await leagueFactory();
 
