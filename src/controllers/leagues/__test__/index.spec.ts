@@ -5,7 +5,7 @@ import { dbConnect, dbClose } from '@test/setup';
 import app from '@app/app';
 import League, { LeagueResponse } from '@app/models/league';
 import { leagueFactory } from '@util/factory';
-import { ErrorResponse } from '@app/middleware/error-handler';
+import { ErrorResponse } from '@app/models/error';
 
 beforeAll(async () => await dbConnect('test-leagues-controller'));
 

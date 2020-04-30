@@ -1,11 +1,11 @@
 import request from 'supertest';
+import { ObjectID } from 'mongodb';
 
 import app from '@app/app';
 import { dbConnect, dbClose } from '@app/test/setup';
 import User, { UserResponse } from '@app/models/user';
 import UserFactory from '@util/factory/user.factory';
-import { ErrorResponse } from '@app/middleware/error-handler';
-import { ObjectID } from 'mongodb';
+import { ErrorResponse } from '@app/models/error';
 
 beforeAll(async () => await dbConnect('test-users-controller'));
 
