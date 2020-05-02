@@ -15,9 +15,20 @@ interface Permit {
   games: Game[];
 }
 
-export interface PlaceDocument extends Document {
+interface PlaceLocation {
+  _id?: string;
+  name: string;
+}
+
+export interface PlaceInput {
   label: string;
   address: Address;
-  locations: string[];
-  permits: Permit[];
+  locations: PlaceLocation[];
 }
+
+export type PlaceResponse = PlaceInput & { 
+  _id: string, 
+  permits: Permit[]
+};
+
+export type PlaceDocument = Document & PlaceInput & PlaceResponse;

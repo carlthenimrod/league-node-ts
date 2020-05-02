@@ -9,11 +9,15 @@ const gameSchema = new Schema({
   end: Date
 });
 
+const locationSchema = new Schema({
+  name: { type: String, required: true, trim: true }
+});
+
 const permitSchema = new Schema({
   start: Date,
   end: Date,
   games: [gameSchema]
-}, { _id: false });
+});
 
 const placeSchema = new Schema({
   label: {
@@ -22,9 +26,7 @@ const placeSchema = new Schema({
     required: true
   },
   address: addressSchema,
-  locations: [{ 
-    name: { type: String, required: true, trim: true }
-  }],
+  locations: [locationSchema],
   permits: [permitSchema]
 });
 

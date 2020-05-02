@@ -7,4 +7,6 @@ export { placeSchema };
 
 export * from './types';
 
+export * as placeFactory from './factory';
+
 export default model<PlaceDocument>('Place', placeSchema);
