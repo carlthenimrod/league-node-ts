@@ -10,7 +10,7 @@ export class Error404 extends Error { };
 export class Error409 extends Error { };
 
 export const getStatusCode = (err: Error): number => {
-  switch (err.constructor) {
+switch (err.constructor) {
     case Error400:
       return 400;
     case Error401:
