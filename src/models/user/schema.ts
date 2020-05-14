@@ -1,10 +1,11 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
+import ObjectId = Types.ObjectId;
 import validator from 'validator';
 
-import { UserDocument } from './types';
+import { Helpers } from './util';
 import { addressSchema } from '../address';
 import { tokenSchema } from '../token';
-import { Helpers } from './util';
+import { UserDocument } from './types';
 
 const userSchema = new Schema({
   name: {
@@ -46,10 +47,21 @@ const userSchema = new Schema({
     phone: { type: String, trim: true },
     secondary: { type: String, trim: true }
   },
-  comments: { type: String, trim: true }
+  comments: { type: String, trim: true },
+  teams: [{ ref: 'Team', type: ObjectId }]
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
+
+userSchema.virtual('fullName')
+  .get(function(this: UserDocument) {
+    return Helpers.getFullName(this.name);
+  });
+
+userSchema.virtual('emergency.fullName')
+  .get(function(this: UserDocument) {
+    return this.emergency && Helpers.getFullName(this.emergency.name);
+  });
 
 export default userSchema;

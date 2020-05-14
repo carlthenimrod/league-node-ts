@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
 import User from '@models/user';
+import { AuthResponse } from '@models/auth';
 
 const authRouter = Router();
 
@@ -13,13 +14,14 @@ interface LoginRequest extends Request {
 
 const loginUser = async (
   req: LoginRequest, 
-  res: Response, 
+  res: Response<AuthResponse>, 
   next: NextFunction
 ) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findByCredentials(email, password);
+    console.log(user);
     const tokens = user.generateTokens();
     await user.save();
 
@@ -28,9 +30,9 @@ const loginUser = async (
       email: user.email,
       name: user.name,
       fullName: user.fullName,
-      // status: user.status,
+      status: user.status,
       img: user.img,
-      // teams: user.teams,
+      teams: user.teams,
       ...tokens
     });
   } catch (e) {
@@ -38,7 +40,7 @@ const loginUser = async (
   }
 };
 
-interface LogoutRequest {
+interface LogoutRequest extends Request {
   body: {
     client: string;
     refresh_token: string;
@@ -64,7 +66,7 @@ type RefreshRequest = LogoutRequest;
 
 const refreshToken = async (
   req: RefreshRequest,
-  res: Response,
+  res: Response<AuthResponse>,
   next: NextFunction
 ) => {
   const { client, refresh_token } = req.body;

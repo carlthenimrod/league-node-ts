@@ -6,6 +6,8 @@ import { Middleware, Statics, Methods } from './util';
 
 export * from './types';
 
+export * as userFactory from './factory';
+
 userSchema.pre('save', Middleware.hashPassword);
 
 userSchema.static('findByCredentials', Statics.findByCredentials);

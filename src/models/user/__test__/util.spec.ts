@@ -4,8 +4,7 @@ import { mocked } from 'ts-jest/utils';
 
 import { AuthToken } from '@app/models/token';
 import { Middleware, Methods, Helpers } from '../util';
-import UserFactory from '@app/util/factory/user.factory';
-import User from '@models/user';
+import User, { userFactory } from '@models/user';
 import { Error401, Error404 } from '@app/models/error';
 
 jest.mock('jsonwebtoken');
@@ -14,7 +13,7 @@ describe('Middleware.hashPassword', () => {
   it('should encrypt password', async () => {
     const password = 'test123';
   
-    const user = UserFactory.create();
+    const user = userFactory.create();
     user.password = password;
     
     await Middleware.hashPassword.call(user);
@@ -30,7 +29,7 @@ describe('Middleware.hashPassword', () => {
 describe('Methods.verifyPassword', () => {
   it('should verify password/return true', async () => {
     const password = 'test123';
-    const user = UserFactory.create();
+    const user = userFactory.create();
     user.password = password;
   
     await Middleware.hashPassword.call(user);
@@ -45,7 +44,7 @@ describe('Methods.verifyPassword', () => {
 
 describe('Statics.findByCredentials', () => {
   it('should return user', async () => {
-    const testUser = UserFactory.create();
+    const testUser = userFactory.create();
     const password = testUser.password as string;
     testUser.password = await bcrypt.hash(testUser.password, 10);
 
@@ -64,7 +63,7 @@ describe('Statics.findByCredentials', () => {
 
 describe('Statics.refreshToken', () => {
   it('should return user and access token', async () => {
-    const user = UserFactory.create();
+    const user = userFactory.create();
 
     mocked(jwt).verify.mockImplementation(() => {
       return { client: 'client-id' };
@@ -111,7 +110,7 @@ describe('Statics.refreshToken', () => {
 
 describe('Methods.generateTokens', () => {
   it('should create tokens object, user tokens array should contain a refresh token', () => {
-    const user = UserFactory.create();
+    const user = userFactory.create();
     const tokens = user.generateTokens();
 
     const refreshToken = user.tokens[0] as AuthToken;

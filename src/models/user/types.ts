@@ -2,6 +2,7 @@ import { Document, Model } from 'mongoose';
 
 import { Address } from '../address';
 import { Token, AuthToken, TokenInfo } from '../token';
+import { TeamInput, TeamDocument } from '../team';
 
 export interface UserInput {
   name: {
@@ -10,6 +11,10 @@ export interface UserInput {
   },
   email: string;
   password?: string;
+  status?: {
+    new: boolean;
+    verified: boolean;
+  };
   img?: string;
   address: Address;
   phone: string;
@@ -23,6 +28,7 @@ export interface UserInput {
     secondary: string;
   },
   comments?: string;
+  teams?: TeamInput[];
 }
 
 export interface UserResponse extends Omit<UserInput, 'password'> {
@@ -33,6 +39,12 @@ export interface UserResponse extends Omit<UserInput, 'password'> {
 
 export interface UserDocument extends Document, UserInput, Omit<UserResponse, '_id'|'__v'> {
   tokens: (Token|AuthToken)[];
+  teams: TeamDocument[];
+  status: {
+    new: boolean;
+    verified: boolean;
+  };
+  img: string;
   confirmEmail: (this: UserDocument, code: string) => boolean;
   generateTokens: (this: UserDocument) => TokenInfo; 
   verifyPassword: (this: UserDocument, password: string) => Promise<boolean>;

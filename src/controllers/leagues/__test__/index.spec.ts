@@ -13,7 +13,7 @@ afterAll(async () => await dbClose());
 
 afterEach(async () => await League.deleteMany({}) );
 
-describe('GET /leagues', () => {
+describe('GET leagues/', () => {
   it('should return 5 leagues', async () => {
     await leagueFactory(5);
 

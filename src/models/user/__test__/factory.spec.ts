@@ -1,6 +1,6 @@
 import { dbConnect, dbClose } from '@app/test/setup';
 import User from '@app/models/user';
-import UserFactory from './user.factory';
+import * as UserFactory from '../factory';
 
 beforeAll(async () => await dbConnect('test-user-factory'));
 

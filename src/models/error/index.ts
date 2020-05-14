@@ -1,4 +1,5 @@
 import { Error as MongooseError } from 'mongoose';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 export interface ErrorResponse {
   message: string;
@@ -14,6 +15,7 @@ switch (err.constructor) {
     case Error400:
       return 400;
     case Error401:
+    case JsonWebTokenError:
       return 401;
     case Error404:
       return 404;

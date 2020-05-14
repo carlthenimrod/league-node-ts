@@ -5,4 +5,6 @@ import { LeagueDocument } from './types';
 
 export * from './types';
 
+export * as leagueFactory from './factory';
+
 export default model<LeagueDocument>('League', leagueSchema);

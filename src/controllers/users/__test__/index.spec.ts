@@ -3,8 +3,7 @@ import { ObjectID } from 'mongodb';
 
 import app from '@app/app';
 import { dbConnect, dbClose } from '@app/test/setup';
-import User, { UserResponse } from '@app/models/user';
-import UserFactory from '@util/factory/user.factory';
+import User, { userFactory, UserResponse } from '@app/models/user';
 import { ErrorResponse } from '@app/models/error';
 
 beforeAll(async () => await dbConnect('test-users-controller'));
@@ -15,7 +14,7 @@ afterEach(async () => User.deleteMany({}));
 
 describe('GET users/', () => {
   it('should return 5 users', async () => {
-    await UserFactory.save(5);
+    await userFactory.save(5);
 
     const result = await request(app).get('/users');
     const { body: users, status }
@@ -39,7 +38,7 @@ describe('GET users/', () => {
 
 describe('GET users/:id', () => {
   it('should return a user', async () => {
-    const testUser = await UserFactory.save();
+    const testUser = await userFactory.save();
 
     const result = await request(app).get(`/users/${ testUser._id }`);
     const { body: responseUser, status }
@@ -75,7 +74,7 @@ describe('GET users/:id', () => {
 
 describe('POST users/', () => {
   it('should save/return user', async () => {
-    const testUser = UserFactory.create();
+    const testUser = userFactory.create();
 
     const result = await request(app).post('/users').send(testUser);
     const { body: responseUser, status } 
@@ -87,7 +86,7 @@ describe('POST users/', () => {
   });
 
   it('should return error 422 (Validation Failed)', async () => {
-    const testUser = { ...UserFactory.create().toObject() };
+    const testUser = { ...userFactory.create().toObject() };
     delete testUser.name;
 
     const result = await request(app).post('/users').send(testUser);
@@ -102,7 +101,7 @@ describe('POST users/', () => {
 
 describe('PUT users/', () => {
   it('should update/return user', async () => {
-    const testUser = await UserFactory.save();
+    const testUser = await userFactory.save();
     const result = await request(app)
       .put(`/users/${ testUser._id }`)
       .send(testUser);
@@ -146,7 +145,7 @@ describe('PUT users/', () => {
 
 describe('DELETE users/', () => {
   it('should remove user', async () => {
-    const testUser = await UserFactory.save();
+    const testUser = await userFactory.save();
     const result = await request(app)
       .delete(`/users/${ testUser._id }`);
 
@@ -197,7 +196,7 @@ describe('POST users/email', () => {
   });
 
   it('should return 409 (email exists)', async () => {
-    const testUser = await UserFactory.save();
+    const testUser = await userFactory.save();
 
     const result = await request(app)
       .post('/users/email')

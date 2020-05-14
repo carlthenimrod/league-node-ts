@@ -30,7 +30,7 @@ export namespace Statics {
     email: string,
     password: string
   ): Promise<UserDocument> {
-    const user = await this.findOne({ email }, '+password + tokens');
+    const user = await this.findOne({ email }, '+password +tokens');
     if (!user) {
       throw new Error404('User not found');
     }
@@ -93,9 +93,9 @@ export namespace Statics {
       email: user.email,
       name: user.name,
       fullName: user.fullName,
-      //status: user.status,
+      status: user.status,
       img: user.img,
-      //teams: user.teams
+      teams: user.teams
     }, accessTokenConfig.secret, {
       expiresIn: accessTokenConfig.expiresIn
     });

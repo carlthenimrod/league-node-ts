@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import authController from '@app/controllers/auth';
 import leaguesController from '@app/controllers/leagues';
 import usersController from '@app/controllers/users';
 import placesController from '@app/controllers/places';
@@ -12,6 +13,7 @@ const router = Router();
 router.use(httpLogger);
 
 // controllers
+router.use('/auth', authController)
 router.use('/leagues', leaguesController);
 router.use('/users', usersController);
 router.use('/places', placesController);
