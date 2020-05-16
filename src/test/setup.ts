@@ -9,7 +9,7 @@ const dbClear = async () => {
 
 export const dbConnect = async (dbName: string) => {
   await mongoose.connect(
-    `mongodb://localhost:27017/${ dbName }`, {
+    `mongodb://localhost:27017/${ dbName }?replicaSet=rs0`, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     }

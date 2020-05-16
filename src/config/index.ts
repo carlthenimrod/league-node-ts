@@ -5,7 +5,7 @@ const {
   NODE_ENV = 'development',
   BASE_URL = 'http://localhost:4200',
   PORT = 3000,
-  MONGODB_URI = 'mongodb://localhost:27017/league-ts',
+  MONGODB_URI = 'mongodb://localhost:27017/league-ts?replicaSet=rs0',
   ACCESS_TOKEN_SECRET = 'random_string',
   ACCESS_TOKEN_EXPIRES_IN = '1h',
   REFRESH_TOKEN_SECRET = 'random_string',
