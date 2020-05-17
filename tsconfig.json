@@ -48,6 +48,7 @@
       "@middleware/*": ["./middleware/*"],
       "@models/*": ["./models/*"],
       "@services/*": ["./services/*"],
+      "@stores/*": ["./stores/*"],
       "@test/*": ["./test/*"],
       "@util/*": ["./util/*"]
     },                                        /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */

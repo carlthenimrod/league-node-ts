@@ -1,6 +1,6 @@
+import { dbConnect, dbClose } from '@app/test/setup';
 import userStore from '../user';
 import { userFactory } from '@models/user';
-import { dbConnect, dbClose } from '@app/test/setup';
 
 afterEach(() => 
   userStore.clear()

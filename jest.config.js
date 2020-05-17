@@ -9,6 +9,7 @@ module.exports = {
     '^@middleware/(.*)$': '<rootDir>/middleware/$1',
     '^@models/(.*)$': '<rootDir>/models/$1',
     '^@services/(.*)$': '<rootDir>/services/$1',
+    '^@stores/(.*)$': '<rootDir>/stores/$1',
     '^@test/(.*)$': '<rootDir>/test/$1',
     '^@util/(.*)$': '<rootDir>/util/$1'
   }
