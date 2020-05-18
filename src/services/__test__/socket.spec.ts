@@ -2,24 +2,22 @@ import http from 'http';
 import { AddressInfo } from 'net';
 import io from 'socket.io-client';
 
-import { dbConnect, dbClose } from '@app/test/setup';
-import SocketServer from '../socket-server';
 import app from '@app/app';
+import { socketServer } from '@services/socket';
 import User, { userFactory } from '@app/models/user';
 import { AuthResponse } from '@app/models/auth';
 
-let server: http.Server;
+let httpServer: http.Server;
 
 beforeAll(async () => {
-  await dbConnect('test-socket-handler');
-  server = http.createServer(app);
-  new SocketServer(server);
-  await new Promise(res => server.listen(res));
+  httpServer = http.createServer(app);
+  socketServer(httpServer);
+
+  await new Promise(res => httpServer.listen(res));
 });
 
 afterAll(async () => {
-  await dbClose();
-  await new Promise(res => server.close(res));
+  await new Promise(res => httpServer.close(res));
 });
 
 describe('socket authorize', () => {
@@ -30,9 +28,8 @@ describe('socket authorize', () => {
       token: 'refreshToken123',
       type: 'refresh'
     });
-    await user.save();
 
-    const client = io(`http://localhost:${ (server.address() as AddressInfo).port }`);
+    const client = io(`http://localhost:${ (httpServer.address() as AddressInfo).port }`);
     await new Promise(res => client.on('connect', res));
     
     const mock = jest.fn(() => 

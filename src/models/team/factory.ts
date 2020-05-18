@@ -47,7 +47,7 @@ export async function save(): Promise<TeamDocument>;
 export async function save(total: number): Promise<TeamDocument[]>;
 export async function save(total?: number): Promise<TeamDocument|TeamDocument[]> {
   if (total && Number.isInteger(total) && total > 1) {
-    return Team.insertMany(create(5));
+    return Team.insertMany(create(total));
   } else {
     return create().save();
   }

@@ -1,14 +1,12 @@
-import app from '@app/app';
-
 import http from 'http';
-const httpServer = http.createServer(app);
 
-import SocketServer from './services/socket-server';
-new SocketServer(httpServer);
-
+import app from './app';
 import './config/db';
-
+import { socketServer } from './services/socket';
 import { port } from './config';
+
+const httpServer = http.createServer(app);
+socketServer(httpServer);
 
 httpServer.listen(
   port, 

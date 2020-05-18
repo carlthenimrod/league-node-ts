@@ -1,17 +1,32 @@
-import { Socket } from 'socket.io';
+import { Server as HttpServer } from 'http';
+import socketIO, { Server as IOServer, Socket } from 'socket.io';
 
 import User from '@models/user';
 import userStore from '@stores/user';
 
-export default class SocketHandler {
+/**
+ * socket.io server
+ */
+export let io: IOServer;
+
+/**
+ * Starts socket.io server
+ * @param httpServer {http.Server} server to bind to
+ */
+export function socketServer(httpServer: HttpServer) {
+  io = socketIO(httpServer);
+
+  io.on('connect', socket => new SocketHandler(socket));
+}
+
+/**
+ * Handler for new socket connections
+ */
+class SocketHandler {
   private _timeout = setTimeout(this._disconnect, 5000);
 
   constructor(public socket: Socket) {
     this.socket.on('authorize', this._authorize.bind(this));
-
-    this.socket.on('butt', () => { 
-      console.log('BUTT'); 
-    });
   }
 
   /**
