@@ -17,6 +17,10 @@ describe('new Notification()', () => {
       action: 'testAction'
     });
 
+    await notification.validate();
+
+    console.log(notification);
+
     await expect(notification.save()).resolves.toBeInstanceOf(Notification);
     expect(
       Object.keys(notification.toObject())
