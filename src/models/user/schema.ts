@@ -6,6 +6,12 @@ import { Helpers } from './util';
 import { addressSchema } from '../address';
 import { tokenSchema } from '../token';
 import { UserDocument } from './types';
+import { 
+  notificationSchema, 
+  adminUserNotificationSchema, 
+  adminTeamNotificationSchema, 
+  teamInviteNotificationSchema 
+} from '../notification/schema';
 
 const userSchema = new Schema({
   name: {
@@ -48,11 +54,18 @@ const userSchema = new Schema({
     secondary: { type: String, trim: true }
   },
   comments: { type: String, trim: true },
-  teams: [{ ref: 'Team', type: ObjectId }]
+  teams: [{ ref: 'Team', type: ObjectId }],
+  notifications: [notificationSchema]
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
 });
+
+const notificationsArray = userSchema.path('notifications') as Schema.Types.DocumentArray;
+
+notificationsArray.discriminator('AdminUserNotification', adminUserNotificationSchema);
+notificationsArray.discriminator('AdminTeamNotification', adminTeamNotificationSchema);
+notificationsArray.discriminator('TeamInviteNotification', teamInviteNotificationSchema);
 
 userSchema.virtual('fullName')
   .get(function(this: UserDocument) {
