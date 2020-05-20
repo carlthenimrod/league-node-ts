@@ -11,7 +11,7 @@ import errorHandler from '@middleware/error-handler';
 const router = Router();
 
 // http logger
-router.use(httpLogger);
+// router.use(httpLogger);
 
 // controllers
 router.use('/auth', authController)

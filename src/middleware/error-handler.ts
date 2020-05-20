@@ -7,11 +7,11 @@ export const errorHandler: ErrorRequestHandler =
 (err, req, res, _next) => {
   res.statusCode = getStatusCode(err);
 
-  logger.error(err.message, { 
-    action: req.method, 
-    status: res.statusCode, 
-    path: req.url 
-  });
+  // logger.error(err.message, { 
+  //   action: req.method, 
+  //   status: res.statusCode, 
+  //   path: req.url 
+  // });
   
   const errorResponse: ErrorResponse = {
     message: err.message

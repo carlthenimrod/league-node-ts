@@ -30,7 +30,7 @@ export namespace Statics {
     email: string,
     password: string
   ): Promise<UserDocument> {
-    const user = await this.findOne({ email }, '+password +tokens');
+    const user = await this.findOne({ email }, '+password +tokens').populate('teams');
     if (!user) {
       throw new Error404('User not found');
     }

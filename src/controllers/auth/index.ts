@@ -21,7 +21,6 @@ const loginUser = async (
 
   try {
     const user = await User.findByCredentials(email, password);
-    console.log(user);
     const tokens = user.generateTokens();
     await user.save();
 
