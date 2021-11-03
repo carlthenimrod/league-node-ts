@@ -19,7 +19,7 @@
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7",
     "socket.io": "^2.3.0",
-    "validator": "^13.0.0",
+    "validator": "^13.7.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2"
   },
